@@ -33,6 +33,9 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 		backChannels = new HashMap<Instance, Channel>();
 	}
 	
+	/**
+	 * 通道可用的时候初始化各个Redis的连接
+	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		final Channel fontChannel = ctx.channel();
@@ -41,6 +44,11 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 		}
 	}
 	
+	/**
+	 * 连接到Redis实例中
+	 * @param fontChannel
+	 * @param instance
+	 */
 	private void startInstance(Channel fontChannel, Instance instance) {
 		Bootstrap bootstrap = new Bootstrap();
 		bootstrap
@@ -62,6 +70,9 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 		});
 	}
 	
+	/**
+	 * 读到数据的时候，将请求分配到Redis上
+	 */
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
@@ -87,6 +98,9 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 		}
 	}
 	
+	/**
+	 * Channel不用的时候flush并关闭
+	 */
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		for(Channel channel : backChannels.values()) {
@@ -96,6 +110,9 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 		}
 	}
 	
+	/**
+	 * 异常出现时候关闭资源
+	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {

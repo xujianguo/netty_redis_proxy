@@ -23,6 +23,11 @@ public class ProxyInitializer extends ChannelInitializer<SocketChannel> {
 		this.instances = instances;
 	}
 
+	/**
+	 * 初始化Channel
+	 * 		1.日志处理
+	 * 		2.代理处理
+	 */
 	@Override
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ch.pipeline().addLast(

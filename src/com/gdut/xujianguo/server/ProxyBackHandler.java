@@ -14,18 +14,25 @@ import io.netty.channel.ChannelHandlerContext;
  * @time 2015年8月1日
  */
 public class ProxyBackHandler extends ChannelHandlerAdapter {
+	//代理的前端Channel
 	private final Channel fontChannel;
 	
 	public ProxyBackHandler(Channel fontChannel) {
 		this.fontChannel = fontChannel;
 	}
 	
+	/**
+	 * Channel激活时候读取信息
+	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		ctx.read();
 		ctx.write(Unpooled.EMPTY_BUFFER);
 	}
 	
+	/**
+	 * Channel读到东西的时候就用fontChannel写出
+	 */
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
@@ -41,11 +48,17 @@ public class ProxyBackHandler extends ChannelHandlerAdapter {
 		});
 	}
 	
+	/**
+	 * Channel不可用的时候关闭资源
+	 */
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		ProxyFontHandler.closeOnFlush(fontChannel);
 	}
 	
+	/**
+	 * 异常出现时候关闭资源
+	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {

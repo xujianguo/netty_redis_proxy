@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.alibaba.fastjson.JSON;
 
 /**
@@ -14,6 +16,7 @@ import com.alibaba.fastjson.JSON;
  * @time 2015年8月1日
  */
 public class Param {
+	private static Logger log = Logger.getLogger(Param.class);
 	//核心配置文件的路径
 	private static final String CORE_FILE_PATH = "resources/core.json"; 
 	//服务器端口
@@ -30,7 +33,8 @@ public class Param {
 			serverPort = (int) JSON.parseObject(coreJson).getJSONObject("server").get("port");
 			instances = JSON.parseArray(JSON.parseObject(coreJson).getJSONArray("instances").toJSONString(), Instance.class);
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error("[Param->constructor加载配置出错]", e);
+			System.exit(-1);
 		}
 	}
 	
