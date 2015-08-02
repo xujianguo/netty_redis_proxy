@@ -11,12 +11,15 @@ public class Instance {
 	private String address;
 	//端口
 	private int port;
+	//权重
+	private int weight = 1;
 	
 	public Instance() {}
 	
-	public Instance(String address, int port) {
+	public Instance(String address, int port, int weight) {
 		this.address = address;
 		this.port = port;
+		this.weight = weight;
 	}
 
 	public String getAddress() {
@@ -35,6 +38,14 @@ public class Instance {
 		this.port = port;
 	}
 	
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Instance) {
@@ -56,6 +67,6 @@ public class Instance {
 	
 	@Override
 	public String toString() {
-		return "address => " + address + ", " + "port => " + port;
+		return "address => " + address + ", " + "port => " + port + ", " + "weight => " + weight;
 	}
 }
