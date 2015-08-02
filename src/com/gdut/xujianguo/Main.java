@@ -1,5 +1,7 @@
 package com.gdut.xujianguo;
 
+import com.gdut.xujianguo.server.ProxyServer;
+
 /**
  * 系统启动类
  * @author xujianguo
@@ -8,6 +10,11 @@ package com.gdut.xujianguo;
  */
 public class Main {
 	public static void main(String[] args) {
-		
+		ProxyServer server = new ProxyServer();
+		try {
+			server.startup();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
