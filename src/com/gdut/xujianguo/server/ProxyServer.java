@@ -28,19 +28,19 @@ public final class ProxyServer {
 			ServerBootstrap bootstrap = new ServerBootstrap();
 			// 执行事件接收和处理类
 			bootstrap
-					.group(bossGroup, workerGroup)
-					// 设置通讯Channel的创建类
-					.channel(NioServerSocketChannel.class)
-					// 处理服务器请求
-					.handler(new LoggingHandler(LogLevel.INFO))
-					// 处理对应的请求
-					.childHandler(new ProxyInitializer(param.getRedisInstances()))
-					// 设置可选项
-					.childOption(ChannelOption.AUTO_READ, false)
-					// 创建Channel并且绑定端口
-					.bind(param.getServerPort())
-					// 同步操作
-					.sync().channel().closeFuture().sync();
+				.group(bossGroup, workerGroup)
+				// 设置通讯Channel的创建类
+				.channel(NioServerSocketChannel.class)
+				// 处理服务器请求
+				.handler(new LoggingHandler(LogLevel.INFO))
+				// 处理对应的请求
+				.childHandler(new ProxyInitializer(param.getRedisInstances()))
+				// 设置可选项
+				.childOption(ChannelOption.AUTO_READ, false)
+				// 创建Channel并且绑定端口
+				.bind(param.getServerPort())
+				// 同步操作
+				.sync().channel().closeFuture().sync();
 		} finally {
 			// 合理关闭资源
 			bossGroup.shutdownGracefully();
