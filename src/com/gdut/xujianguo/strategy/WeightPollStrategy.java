@@ -52,8 +52,6 @@ public class WeightPollStrategy extends Strategy {
 		}
 		//获取最大weight的那个instance
 		Entry<Instance, Integer> first = weightInstances.firstEntry();
-		System.out.println(weightInstances);
-		System.out.println(first.getValue());
 		//如果权重大于1就减1
 		if(first.getValue() > 1) {
 			weightInstances.replace(first.getKey(), first.getValue()-1);
