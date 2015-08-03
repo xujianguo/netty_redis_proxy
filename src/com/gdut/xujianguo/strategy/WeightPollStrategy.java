@@ -52,9 +52,13 @@ public class WeightPollStrategy extends Strategy {
 		}
 		//获取最大weight的那个instance
 		Entry<Instance, Integer> first = weightInstances.firstEntry();
+		System.out.println(weightInstances);
+		System.out.println(first.getValue());
 		//如果权重大于1就减1
 		if(first.getValue() > 1) {
 			weightInstances.replace(first.getKey(), first.getValue()-1);
+		} else {
+			weightInstances.remove(first.getKey());
 		}
 		//返回最大weight的instance
 		return first.getKey();
@@ -77,7 +81,7 @@ public class WeightPollStrategy extends Strategy {
 	private class InstanceComparator implements Comparator<Instance> {
 		@Override
 		public int compare(Instance o1, Instance o2) {
-			return o1.getWeight() > o2.getWeight() ? 1 : o1.getWeight() < o2.getWeight() ? -1 : 0;
+			return o1.getWeight() > o2.getWeight() ? -1 : o1.getWeight() < o2.getWeight() ? 1 : 0;
 		}
 	}
 }
