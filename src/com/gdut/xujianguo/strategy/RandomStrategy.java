@@ -6,6 +6,7 @@ import java.util.Random;
 import com.gdut.xujianguo.param.Instance;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * 随机选择策略
@@ -34,7 +35,7 @@ public class RandomStrategy extends Strategy {
 	 * 选择结果
 	 */
 	@Override
-	public Channel select() {
+	public Channel select(ChannelHandlerContext ctx) {
 		return instance2Channel.get(randomInstance());
 	}
 }

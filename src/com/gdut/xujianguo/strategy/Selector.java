@@ -5,6 +5,7 @@ import java.util.Map;
 import com.gdut.xujianguo.param.Instance;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * Channel选择器
@@ -31,6 +32,10 @@ public class Selector {
 		case "random":
 			strategy = new RandomStrategy(instance2Channel);
 			break;
+		//ip哈希
+		case "ip_hash":
+			strategy = new IPHashStrategy(instance2Channel);
+			break;
 		default:
 			strategy = null;
 		}
@@ -40,7 +45,7 @@ public class Selector {
 	 * 选择Channel
 	 * @return
 	 */
-	public Channel selectChannel() {
-		return strategy.select();
+	public Channel selectChannel(ChannelHandlerContext ctx) {
+		return strategy.select(ctx);
 	}
 }

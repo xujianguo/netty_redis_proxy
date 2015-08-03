@@ -5,6 +5,7 @@ import java.util.Map;
 import com.gdut.xujianguo.param.Instance;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * 抽象选择策略（策略模式）
@@ -24,5 +25,5 @@ public abstract class Strategy {
 	 * 选择结果
 	 * @return
 	 */
-	public abstract Channel select();
+	public abstract Channel select(ChannelHandlerContext ctx);
 }

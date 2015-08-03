@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import com.gdut.xujianguo.param.Instance;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 
 /**
  * 权重轮询策略
@@ -66,7 +67,7 @@ public class WeightPollStrategy extends Strategy {
 	 * 选择结果
 	 */
 	@Override
-	public Channel select() {
+	public Channel select(ChannelHandlerContext ctx) {
 		return instance2Channel.get(maxWeight());
 	}
 	
