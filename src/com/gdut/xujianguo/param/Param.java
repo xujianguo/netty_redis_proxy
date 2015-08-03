@@ -21,6 +21,8 @@ public class Param {
 	private static final String CORE_FILE_PATH = "resources/core.json"; 
 	//服务器端口
 	private static int serverPort;
+	//策略
+	private static String strategy;
 	//Redis实例列表
 	private static List<Instance> instances; 
 	
@@ -31,6 +33,7 @@ public class Param {
 		try {
 			String coreJson = readJsonFromFile(CORE_FILE_PATH);
 			serverPort = (int) JSON.parseObject(coreJson).getJSONObject("server").get("port");
+			strategy = (String) JSON.parseObject(coreJson).get("strategy");
 			instances = JSON.parseArray(JSON.parseObject(coreJson).getJSONArray("instances").toJSONString(), Instance.class);
 		} catch (IOException e) {
 			log.error("[Param->constructor加载配置出错]", e);
@@ -59,5 +62,9 @@ public class Param {
 	
 	public List<Instance> getRedisInstances() {
 		return instances;
+	}
+	
+	public String getStrategy() {
+		return strategy;
 	}
 }
