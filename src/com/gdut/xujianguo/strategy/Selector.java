@@ -27,6 +27,10 @@ public class Selector {
 		case "weight_poll":
 			strategy = new WeightPollStrategy(instance2Channel);
 			break;
+		//随机选择
+		case "random":
+			strategy = new RandomStrategy(instance2Channel);
+			break;
 		default:
 			strategy = null;
 		}
