@@ -84,7 +84,7 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
-		Channel selectChannel = selector.selectChannel();
+		Channel selectChannel = selector.selectChannel(ctx);
 		if(selectChannel.isActive()) {
 			selectChannel.writeAndFlush(msg).addListener(new ChannelFutureListener() {
 				@Override
