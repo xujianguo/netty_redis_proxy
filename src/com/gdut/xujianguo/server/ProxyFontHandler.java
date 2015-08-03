@@ -3,9 +3,10 @@ package com.gdut.xujianguo.server;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import com.gdut.xujianguo.param.Instance;
+import com.gdut.xujianguo.param.Param;
+import com.gdut.xujianguo.strategy.Selector;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -23,13 +24,18 @@ import io.netty.channel.ChannelOption;
  * @time 2015年8月1日
  */
 public class ProxyFontHandler extends ChannelHandlerAdapter {
+	//参数
+	private Param param;
 	//Redis的实例列表
 	private List<Instance> instances;
 	//实例跟Channel组成的Map
 	private volatile Map<Instance, Channel> backChannels; 
+	//Channel选择器
+	private Selector selector;
 	
-	public ProxyFontHandler(List<Instance> instances) {
-		this.instances = instances;
+	public ProxyFontHandler(Param param) {
+		this.param = param;
+		this.instances = this.param.getRedisInstances();
 		backChannels = new HashMap<Instance, Channel>();
 	}
 	
@@ -42,6 +48,8 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 		for(Instance instance : instances) {
 			startInstance(fontChannel, instance);
 		}
+		//初始化selector
+		selector = new Selector(param.getStrategy(), backChannels);
 	}
 	
 	/**
@@ -76,14 +84,7 @@ public class ProxyFontHandler extends ChannelHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg)
 			throws Exception {
-		Channel selectChannel = null;
-		while(true) {
-			Channel channel = backChannels.get(instances.get(new Random().nextInt(instances.size())));
-			if(channel != null) {
-				selectChannel = channel;
-				break;
-			}
-		}
+		Channel selectChannel = selector.selectChannel();
 		if(selectChannel.isActive()) {
 			selectChannel.writeAndFlush(msg).addListener(new ChannelFutureListener() {
 				@Override

@@ -1,8 +1,6 @@
 package com.gdut.xujianguo.server;
 
-import java.util.List;
-
-import com.gdut.xujianguo.param.Instance;
+import com.gdut.xujianguo.param.Param;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -16,11 +14,11 @@ import io.netty.handler.logging.LoggingHandler;
  * @time 2015年8月1日
  */
 public class ProxyInitializer extends ChannelInitializer<SocketChannel> {
-	//Redis是实例信息
-	private List<Instance> instances;
+	//参数
+	private Param param;
 	
-	public ProxyInitializer(List<Instance> instances) {
-		this.instances = instances;
+	public ProxyInitializer(Param param) {
+		this.param = param;
 	}
 
 	/**
@@ -32,7 +30,7 @@ public class ProxyInitializer extends ChannelInitializer<SocketChannel> {
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ch.pipeline().addLast(
 			new LoggingHandler(LogLevel.INFO),
-			new ProxyFontHandler(instances)
+			new ProxyFontHandler(param)
 		);
 	}
 }

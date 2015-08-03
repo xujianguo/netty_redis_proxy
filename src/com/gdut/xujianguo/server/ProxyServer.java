@@ -34,7 +34,7 @@ public final class ProxyServer {
 				// 处理服务器请求
 				.handler(new LoggingHandler(LogLevel.INFO))
 				// 处理对应的请求
-				.childHandler(new ProxyInitializer(param.getRedisInstances()))
+				.childHandler(new ProxyInitializer(param))
 				// 设置可选项
 				.childOption(ChannelOption.AUTO_READ, false)
 				// 创建Channel并且绑定端口
