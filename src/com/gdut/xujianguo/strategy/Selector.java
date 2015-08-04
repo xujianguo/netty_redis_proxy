@@ -36,6 +36,10 @@ public class Selector {
 		case "ip_hash":
 			strategy = new IPHashStrategy(instance2Channel);
 			break;
+		//一致性哈希
+		case "consisten_hash":
+			strategy = new ConsistenHashStrategy(instance2Channel);
+			break;
 		default:
 			strategy = null;
 		}
